@@ -9,7 +9,7 @@ RUN microdnf update -y && \
         curl \
         ca-certificates \
         # shadow-utils \
-        # unzip \
+        unzip \
     --nodocs \ 
     --disableplugin=subscription-manager && rm -rf /var/cache/microdnf
 

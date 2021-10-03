@@ -53,3 +53,13 @@ podman run --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro flowt
 podman exec --tty [container_id] env TERM=xterm ansible --version
 podman exec --tty [container_id] env TERM=xterm ansible-playbook /path/to/ansible/playbook.yml --syntax-check
 ```
+
+
+### Shorten the Docker command
+
+```
+alias tf.='docker run --rm -it amazon/aws-cli'
+alias tf.='docker run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
+alias tf.='docker run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli:2.0.6'
+
+```
