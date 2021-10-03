@@ -58,8 +58,8 @@ podman exec --tty [container_id] env TERM=xterm ansible-playbook /path/to/ansibl
 ### Shorten the Docker command
 
 ```
-alias tf.='docker run --rm -it amazon/aws-cli'
-alias tf.='docker run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
-alias tf.='docker run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli:2.0.6'
+alias tf.='podman run --rm -it localhost/flowto-cloud/terraform:1.0.7'
+alias tf.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
+alias tf.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli:2.0.6'
 
 ```
