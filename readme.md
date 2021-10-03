@@ -55,7 +55,7 @@ podman exec --tty [container_id] env TERM=xterm ansible-playbook /path/to/ansibl
 ```
 
 
-### Shorten the Docker command
+### Shorten the Podman command
 
 ```
 alias tf.='podman run --rm -it localhost/flowto-cloud/terraform:1.0.7'
