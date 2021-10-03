@@ -15,7 +15,7 @@
 
 ## How to use
 
-### Build tools:
+### Scenario:
 
 ```
 ❯ podman --version
