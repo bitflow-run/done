@@ -32,11 +32,11 @@
 
 ```
 
-buildah bud -f <CLIETN-NAME>.podmanfile  -t flowto-cloud/<CLIETN-NAME>:<VERSION>
+buildah bud -f <CLIETN-NAME>.dockerfile  -t flowto-cloud/<CLIETN-NAME>:<VERSION>
 
 
 # Example
-buildah bud -f minio-client.podmanfile  -t flowto-cloud/mino-client
+buildah bud -f minio-client.dockerfile  -t flowto-cloud/mino-client
 podman run --rm -it localhost/flowto-cloud/mino-client --help
 ```
 
@@ -47,7 +47,7 @@ podman run --rm -it localhost/flowto-cloud/mino-client --help
 podman run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa flowto-cloud/mino-client bash
 
 # Run a container from the image:
-podman run --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro strusfr/podman-ubi7-ansible:latest
+podman run --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro flowto-cloud/ansible:latest
 
 # Run a container from the image:
 podman exec --tty [container_id] env TERM=xterm ansible --version
