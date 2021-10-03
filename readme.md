@@ -2,7 +2,7 @@
 # OPS Tools
 ---
 
-> this is our regular tools to use debug, troubleshoot and reproduce scenarios across the cloud and local services.
+> this are our regular tools to debug, troubleshoot and reproduce scenarios across the cloud and local services.
 
 ## Index Images
 
