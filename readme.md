@@ -12,9 +12,11 @@ aka > **POS**
 +   Ansible
 +   AWS
 +   Minio
++   Nvim
 +   Packer
 +   Terraform *
 
+> [SOPS](https://github.com/mozilla/sops/releases)
 
 ## How to use
 
@@ -47,6 +49,9 @@ podman run --rm -it localhost/flowto-cloud/mino-client --help
 
 ```
 # Run a container from the image:
+podman run --rm -it localhost/flowto-cloud/nvim --version
+
+# Run a container from the image:
 podman run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa flowto-cloud/mino-client bash
 
 # Run a container from the image:
@@ -61,6 +66,7 @@ podman exec --tty [container_id] env TERM=xterm ansible-playbook /path/to/ansibl
 ### Shorten the Podman command
 
 ```
+alias vi.='podman run --rm -it localhost/flowto-cloud/nvim'
 alias tf.='podman run --rm -it localhost/flowto-cloud/terraform:1.0.7'
 alias tf.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
 alias tf.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli:2.0.6'
