@@ -7,22 +7,23 @@ aka > **POS**
 
 > this are our regular tools to debug, troubleshoot and reproduce scenarios across the cloud and local services.
 
-## Matrix
+## Stack
 
-| image                                               | base distro  | status |
-| --------------------------------------------------- | ------------ | ------ |
-| ansible                                             |              |        |
-| aws-cli                                             |              |        |
-| k9s                                                 | alpine       | done   |
-| minio                                               |              |        |
-| [nvim](https://github.com/neovim/neovim)            | alpine - ubi | done   |
-| packer                                              |              |        |
-| [sop](https://github.com/mozilla/sops/releases)     |              |        |
-| [terraform](https://github.com/hashicorp/terraform) |              |        |
+| image                                                       | base distro      | status | sizes       |
+| ----------------------------------------------------------- | ---------------- | ------ | ----------- |
+| [ansible-runner](https://github.com/ansible/ansible-runner) |                  |        |             |
+| [aws-cli](https://github.com/aws/aws-cli)                   |                  |        |             |
+| k2s ([kubectx + kubens](https://github.com/ahmetb/kubectx)) | alpine           | done   | 36M  / 12M  |
+| [k9s](https://github.com/derailed/k9s)                      | alpine           | done   | 122M / 36M  |
+| [minio](https://github.com/minio/mc)                        |                  |        |             |
+| [nvim](https://github.com/neovim/neovim)                    | **alpine** - ubi | done   | 293M / 125M |
+| [packer](https://github.com/hashicorp/packer)               |                  |        |             |
+| [sop](https://github.com/mozilla/sops/releases)             |                  |        |             |
+| [terraform](https://github.com/hashicorp/terraform)         |                  |        |             |
 
 
 
-## How to use
+## Portable
 
 ### Scenario:
 
@@ -34,62 +35,7 @@ aka > **POS**
     buildah version 1.23.1 (image-spec 1.0.1-dev, runtime-spec 1.0.2-dev)
 ```
 
-
-### Creating an Image
-
-> for each client that you need create an image, change ghe 
-
-```bash
-
-buildah bud -f <CLIETN-NAME>.dockerfile  -t flowto-cloud/pos-<CLIETN-NAME>:<VERSION>
-
-
-# Example
-buildah bud -f minio-client.dockerfile  -t flowto-cloud/pos-mino-client
-podman run --rm -it localhost/flowto-cloud/pos-mino-client --help
-```
-
-### Running an Image
-
-```bash
-# Run a container from the image:
-podman run --rm -it localhost/flowto-cloud/pos-nvim --version
-
-podman run --rm -it -v $(pwd):/data flowto-cloud/pos-alpine-nvim nvim name-of-file.md
-
-# Run a container from the image:
-podman run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa flowto-cloud/mino-client bash
-
-# Run a container from the image:
-podman run --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro flowto-cloud/ansible:latest
-
-# Run a container from the image:
-podman exec --tty [container_id] env TERM=xterm ansible --version
-podman exec --tty [container_id] env TERM=xterm ansible-playbook /path/to/ansible/playbook.yml --syntax-check
-```
-
-
-### Easy aliases pointer
-
-```bash
-# VI
-alias vi.='podman run --rm -it -v $(pwd):/data flowto-cloud/pos-alpine-nvim nvim'
-
-# TF
-alias tf.='podman run --rm -it localhost/flowto-cloud/pos-terraform:1.0.7'
-
-# AWS
-alias aws.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws localhost/flowto-cloud/pos-aws-cli'
-
-# AWS:2.0.6
-alias aws.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws localhost/flowto-cloud/pos-aws-cli:2.0.6'
-
-# k9s
-alias k9s.='podman run --rm -it -v ~/.kube/config:/root/.kube/config localhost/flowto-cloud/pos-alpine-k9s'
-
-```
-
-### Portable Details
+### Export and Import Images
 
 > create an pos-<IMAGENAME>.tar and place it on destination, then load the image.
 
@@ -109,25 +55,75 @@ podman save localhost/flowto-cloud/pos-nvim:latest | gzip > pos-nvim.tar.gz
 
 
 
-## Building on git submodule
+## Usage
 
-> In case the project have a reasonable Dockerfile it's included as **git submodule**
->
-> download all the sub modules with `git submodule update --recursive --remote`
+### k2s
 
-### example
+```bash
+# build
+export
+buildah bud --build-arg TARGET_VERSION=v0.9.4 -f k2s.alpine.dockerfile -t flowto-cloud/pos-alpine-k2s:v0.9.4 .
+
+# run test
+podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/pos-alpine-k2s:v0.9.4 kubens --help
+podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/pos-alpine-k2s:v0.9.4 kubectx --help
+
+# load alias
+alias kux.='podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/pos-alpine-k2s:v0.9.4 kubectx.'
+alias kns.='podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/pos-alpine-k2s:v0.9.4 kubens'
 
 ```
-# building k9s image 
-cd k9s
 
+### k9s
+
+> ​	this image is placed as a **git submodule** to download all the sub modules with
+>
+> `git submodule update --recursive --remote`
+
+```bash
 # load the latest version on kubectl KUBECTL_VERSION
 KUBECTL_VERSION=$(make kubectl-stable-version 2>/dev/null)
 
-# build it
+# build
 buildah bud --build-arg KUBECTL_VERSION=${KUBECTL_VERSION} -t flowto-cloud/pos-alpine-k9s .
 
+# run test
+podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/pos-alpine-k9s --help
 
+# load alias
+alias k9s.='podman run --rm -it -v ~/.kube/config:/root/.kube/config localhost/flowto-cloud/pos-alpine-k9s'
+```
+### nvim
+
+```bash
+# build
+buildah bud -f nvim.alpine.dockerfile -t flowto-cloud/pos-alpine-nvim
+
+# run test
+podman run --rm -it -v $(pwd):/data flowto-cloud/pos-alpine-nvim nvim --help
+
+# load alias
+alias vim.='podman run --rm -it -v $(pwd):/data flowto-cloud/pos-alpine-nvim nvim'
 ```
 
- 
+### extras notes
+
+```bash
+# Run a container from the image:
+podman run --rm -it localhost/flowto-cloud/pos-nvim --version
+
+podman run --rm -it -v $(pwd):/data flowto-cloud/pos-alpine-nvim nvim name-of-file.md
+
+# Run a container from the image:
+podman run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa flowto-cloud/mino-client bash
+
+# Run a container from the image:
+podman run --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro flowto-cloud/ansible:latest
+
+# Run a container from the image:
+podman exec --tty [container_id] env TERM=xterm ansible --version
+podman exec --tty [container_id] env TERM=xterm ansible-playbook /path/to/ansible/playbook.yml --syntax-check
+```
+
+
+
