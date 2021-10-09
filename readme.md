@@ -37,19 +37,21 @@ aka > **POS**
 
 ```
 
-buildah bud -f <CLIETN-NAME>.dockerfile  -t flowto-cloud/<CLIETN-NAME>:<VERSION>
+buildah bud -f <CLIETN-NAME>.dockerfile  -t flowto-cloud/pos-<CLIETN-NAME>:<VERSION>
 
 
 # Example
-buildah bud -f minio-client.dockerfile  -t flowto-cloud/mino-client
-podman run --rm -it localhost/flowto-cloud/mino-client --help
+buildah bud -f minio-client.dockerfile  -t flowto-cloud/pos-mino-client
+podman run --rm -it localhost/flowto-cloud/pos-mino-client --help
 ```
 
 ### Running an Image
 
 ```
 # Run a container from the image:
-podman run --rm -it localhost/flowto-cloud/nvim --version
+podman run --rm -it localhost/flowto-cloud/pos-nvim --version
+
+podman run --rm -it -v $(pwd):/data flowto-cloud/pos-alpine-nvim nvim name-of-file.md
 
 # Run a container from the image:
 podman run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa flowto-cloud/mino-client bash
@@ -66,9 +68,33 @@ podman exec --tty [container_id] env TERM=xterm ansible-playbook /path/to/ansibl
 ### Shorten the Podman command
 
 ```
-alias vi.='podman run --rm -it localhost/flowto-cloud/nvim'
-alias tf.='podman run --rm -it localhost/flowto-cloud/terraform:1.0.7'
-alias tf.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli'
-alias tf.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws amazon/aws-cli:2.0.6'
+# VI
+alias vi.='podman run --rm -it -v $(pwd):/data flowto-cloud/pos-alpine-nvim nvim'
 
+# TF
+alias tf.='podman run --rm -it localhost/flowto-cloud/pos-terraform:1.0.7'
+
+# AWS
+alias aws.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws localhost/flowto-cloud/pos-aws-cli'
+
+# AWS:2.0.6
+alias aws.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws localhost/flowto-cloud/pos-aws-cli:2.0.6'
+```
+
+### Portable Details
+
+> create an pos-<IMAGENAME>.tar and place it on destination, then load the image.
+
+
+```
+# ORIGIN
+# example: podman save pos-<IMAGENAME>:latest -o pos-<IMAGENAME>.tar
+# example: podman save pos-<IMAGENAME>:latest | gzip > pos-<IMAGENAME>.tar.gz
+
+podman save localhost/flowto-cloud/pos-nvim:latest | gzip > pos-nvim.tar.gz
+
+
+# DESTINATION
+# example: podman load -i pos-<IMAGENAME>.tar
+# example: gunzip -c pos-<IMAGENAME>.tar.gz | podman load
 ```
