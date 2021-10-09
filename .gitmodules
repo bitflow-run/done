@@ -1,3 +1,6 @@
 [submodule "ansible-runner"]
 	path = ansible-runner
 	url = https://github.com/ansible/ansible-runner.git
+[submodule "k9s"]
+	path = k9s
+	url = https://github.com/derailed/k9s.git

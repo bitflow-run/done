@@ -69,7 +69,7 @@ podman exec --tty [container_id] env TERM=xterm ansible-playbook /path/to/ansibl
 ```
 
 
-### Shorten the Podman command
+### Easy aliases pointer
 
 ```
 # VI
@@ -83,6 +83,10 @@ alias aws.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws localhost/fl
 
 # AWS:2.0.6
 alias aws.='podman run --rm -it -v ~/.aws:/root/.aws -v $(pwd):/aws localhost/flowto-cloud/pos-aws-cli:2.0.6'
+
+# k9s
+alias k9s.='podman run --rm -it -v ~/.kube/config:/root/.kube/config localhost/flowto-cloud/pos-alpine-k9s'
+
 ```
 
 ### Portable Details
@@ -102,3 +106,26 @@ podman save localhost/flowto-cloud/pos-nvim:latest | gzip > pos-nvim.tar.gz
 # example: podman load -i pos-<IMAGENAME>.tar
 # example: gunzip -c pos-<IMAGENAME>.tar.gz | podman load
 ```
+
+
+
+## Building on git submodule
+
+> In case the project have a reasonable Dockerfile it's included as **git submodule**
+
+### example
+
+```
+# building k9s image 
+cd k9s
+
+# load the latest version on kubectl KUBECTL_VERSION
+KUBECTL_VERSION=$(make kubectl-stable-version 2>/dev/null)
+
+# build it
+buildah bud --build-arg KUBECTL_VERSION=${KUBECTL_VERSION} -t flowto-cloud/pos-alpine-k9s .
+
+
+```
+
+ 
