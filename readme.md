@@ -7,16 +7,20 @@ aka > **POS**
 
 > this are our regular tools to debug, troubleshoot and reproduce scenarios across the cloud and local services.
 
-## Index Images
+## Matrix
 
-+   Ansible
-+   AWS
-+   Minio
-+   Nvim
-+   Packer
-+   Terraform *
+| image                                               | base distro  | status |
+| --------------------------------------------------- | ------------ | ------ |
+| ansible                                             |              |        |
+| aws-cli                                             |              |        |
+| k9s                                                 |              |        |
+| minio                                               |              |        |
+| [nvim](https://github.com/neovim/neovim)            | alpine - ubi | done   |
+| packer                                              |              |        |
+| [sop](https://github.com/mozilla/sops/releases)     |              |        |
+| [terraform](https://github.com/hashicorp/terraform) |              |        |
 
-> [SOPS](https://github.com/mozilla/sops/releases)
+
 
 ## How to use
 
