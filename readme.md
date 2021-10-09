@@ -13,7 +13,7 @@ aka > **POS**
 | --------------------------------------------------- | ------------ | ------ |
 | ansible                                             |              |        |
 | aws-cli                                             |              |        |
-| k9s                                                 |              |        |
+| k9s                                                 | alpine       | done   |
 | minio                                               |              |        |
 | [nvim](https://github.com/neovim/neovim)            | alpine - ubi | done   |
 | packer                                              |              |        |
@@ -26,7 +26,7 @@ aka > **POS**
 
 ### Scenario:
 
-```
+```bash
 ❯ podman --version
     podman version 3.2.2
 
@@ -39,7 +39,7 @@ aka > **POS**
 
 > for each client that you need create an image, change ghe 
 
-```
+```bash
 
 buildah bud -f <CLIETN-NAME>.dockerfile  -t flowto-cloud/pos-<CLIETN-NAME>:<VERSION>
 
@@ -51,7 +51,7 @@ podman run --rm -it localhost/flowto-cloud/pos-mino-client --help
 
 ### Running an Image
 
-```
+```bash
 # Run a container from the image:
 podman run --rm -it localhost/flowto-cloud/pos-nvim --version
 
@@ -71,7 +71,7 @@ podman exec --tty [container_id] env TERM=xterm ansible-playbook /path/to/ansibl
 
 ### Easy aliases pointer
 
-```
+```bash
 # VI
 alias vi.='podman run --rm -it -v $(pwd):/data flowto-cloud/pos-alpine-nvim nvim'
 
@@ -94,7 +94,7 @@ alias k9s.='podman run --rm -it -v ~/.kube/config:/root/.kube/config localhost/f
 > create an pos-<IMAGENAME>.tar and place it on destination, then load the image.
 
 
-```
+```bash
 # ORIGIN
 # example: podman save pos-<IMAGENAME>:latest -o pos-<IMAGENAME>.tar
 # example: podman save pos-<IMAGENAME>:latest | gzip > pos-<IMAGENAME>.tar.gz
@@ -112,6 +112,8 @@ podman save localhost/flowto-cloud/pos-nvim:latest | gzip > pos-nvim.tar.gz
 ## Building on git submodule
 
 > In case the project have a reasonable Dockerfile it's included as **git submodule**
+>
+> download all the sub modules with `git submodule update --recursive --remote`
 
 ### example
 
