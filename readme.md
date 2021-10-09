@@ -61,7 +61,6 @@ podman save localhost/flowto-cloud/pos-nvim:latest | gzip > pos-nvim.tar.gz
 
 ```bash
 # build
-export
 buildah bud --build-arg TARGET_VERSION=v0.9.4 -f k2s.alpine.dockerfile -t flowto-cloud/pos-alpine-k2s:v0.9.4 .
 
 # run test
@@ -82,7 +81,7 @@ alias kns.='podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/po
 
 ```bash
 # load the latest version on kubectl KUBECTL_VERSION
-KUBECTL_VERSION=$(make kubectl-stable-version 2>/dev/null)
+export KUBECTL_VERSION=$(make kubectl-stable-version 2>/dev/null)
 
 # build
 buildah bud --build-arg KUBECTL_VERSION=${KUBECTL_VERSION} -t flowto-cloud/pos-alpine-k9s .
