@@ -74,8 +74,9 @@ podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner ansible --h
 podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner ansible --version
 
 # load alias
-alias ans.='podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner ansible'
-alias ansd.='podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner ansible-doc'
+alias ans.='podman run --rm -v ./:/runner/ops flowto-cloud/pos-centos-ansible-runner-v2:latest ansible'
+alias ansp.='podman run --rm -v ./:/runner/ops flowto-cloud/pos-centos-ansible-runner-v2:latest ansible-playbook'
+alias ansd.='podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner-v2 ansible-doc'
 
 ```
 
