@@ -71,11 +71,11 @@ buildah bud -t localhost/flowto-cloud/pos-centos-ansible-runner .
 
 # run test
 podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner ansible --help
-podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner ansible version
+podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner ansible --version
 
 # load alias
-alias ans.='localhost/flowto-cloud/pos-centos-ansible-runner ansible'
-alias ansd.='localhost/flowto-cloud/pos-centos-ansible-runner ansible-doc'
+alias ans.='podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner ansible'
+alias ansd.='podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner ansible-doc'
 
 ```
 
