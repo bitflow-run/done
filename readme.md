@@ -11,7 +11,7 @@ aka > **POS**
 
 | image                                                       | base distro      | status | sizes       |
 | ----------------------------------------------------------- | ---------------- | ------ | ----------- |
-| [ansible-runner](https://github.com/ansible/ansible-runner) |                  |        |             |
+| [ansible-runner](https://github.com/ansible/ansible-runner) | centos           | done   | 623M / 193M |
 | [aws-cli](https://github.com/aws/aws-cli)                   |                  |        |             |
 | k2s ([kubectx + kubens](https://github.com/ahmetb/kubectx)) | alpine           | done   | 36M  / 12M  |
 | [k9s](https://github.com/derailed/k9s)                      | alpine           | done   | 122M / 36M  |
@@ -57,6 +57,28 @@ podman save localhost/flowto-cloud/pos-nvim:latest | gzip > pos-nvim.tar.gz
 
 ## Usage
 
+### ansible-runner
+
+```bash
+# pull all submodules using
+git submodule update --init --recursive
+
+# updating to update submodules
+git submodule update --recursive --remote
+
+# build
+buildah bud -t localhost/flowto-cloud/pos-centos-ansible-runner .
+
+# run test
+podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner ansible --help
+podman run -it --rm localhost/flowto-cloud/pos-centos-ansible-runner ansible version
+
+# load alias
+alias ans.='localhost/flowto-cloud/pos-centos-ansible-runner ansible'
+alias ansd.='localhost/flowto-cloud/pos-centos-ansible-runner ansible-doc'
+
+```
+
 ### k2s
 
 ```bash
@@ -68,7 +90,7 @@ podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/pos-alpine-k2s
 podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/pos-alpine-k2s:v0.9.4 kubectx --help
 
 # load alias
-alias kux.='podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/pos-alpine-k2s:v0.9.4 kubectx.'
+alias kux.='podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/pos-alpine-k2s:v0.9.4 kubectx'
 alias kns.='podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/pos-alpine-k2s:v0.9.4 kubens'
 
 ```
