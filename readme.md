@@ -120,13 +120,13 @@ alias k9s.='podman run --rm -it -v ~/.kube/config:/root/.kube/config localhost/b
 
 ```bash
 # build
-buildah bud -f nvim.alpine.dockerfile -t bitflow-run/done-alpine-nvim
+buildah bud -f nvim.alpine.dockerfile -t bitflow-run/done-nvim-ide:alpine
 
 # run test
-podman run --rm -it -v $(pwd):/data bitflow-run/done-alpine-nvim nvim --help
+podman run --rm -it -v $(pwd):/data bitflow-run/done-nvim-ide:alpine nvim --help
 
 # load alias
-alias vim.='podman run --rm -it -v $(pwd):/data bitflow-run/done-alpine-nvim nvim'
+alias vim.='podman run --rm -it -v $(pwd):/data bitflow-run/done-nvim-ide:alpine nvim'
 
 
 ```
