@@ -17,7 +17,7 @@ aka > **DONE**
 | [k9s](https://github.com/derailed/k9s)                      | alpine           | done   | 122M / 36M  |
 | [minio](https://github.com/minio/mc)                        |                  |        |             |
 | [nvim](https://github.com/neovim/neovim)                    | **alpine** - ubi | done   | 293M / 125M |
-| [nvch](https://github.com/neovim/neovim)                    | **alpine**       | done   | 800M        |
+| [nvim-ide](https://github.com/neovim/neovim)                | **alpine**       | done   | 800M        |
 | [packer](https://github.com/hashicorp/packer)               |                  |        |             |
 | [sop](https://github.com/mozilla/sops/releases)             |                  |        |             |
 | [terraform](https://github.com/hashicorp/terraform)         |                  |        |             |
