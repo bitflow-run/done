@@ -5,7 +5,7 @@ aka > **DONE**
 
 ---
 
-> this are our regular tools to develop, debug, troubleshoot and reproduce scenarios across any platform.
+> Regular tools for develop, debug, troubleshoot and reproduce scenarios across any platform.
 
 ## Stack
 
@@ -46,7 +46,7 @@ aka > **DONE**
 # example: podman save done-<IMAGENAME>:latest -o done-<IMAGENAME>.tar
 # example: podman save done-<IMAGENAME>:latest | gzip > done-<IMAGENAME>.tar.gz
 
-podman save localhost/flowto-cloud/done-nvim:latest | gzip > done-nvim.tar.gz
+podman save localhost/bitflow-run/done-nvim:latest | gzip > done-nvim.tar.gz
 
 
 # DESTINATION
@@ -68,16 +68,16 @@ git submodule update --init --recursive
 git submodule update --recursive --remote
 
 # build
-buildah bud -t localhost/flowto-cloud/done-centos-ansible-runner .
+buildah bud -t localhost/bitflow-run/done-centos-ansible-runner .
 
 # run test
-podman run -it --rm localhost/flowto-cloud/done-centos-ansible-runner ansible --help
-podman run -it --rm localhost/flowto-cloud/done-centos-ansible-runner ansible --version
+podman run -it --rm localhost/bitflow-run/done-centos-ansible-runner ansible --help
+podman run -it --rm localhost/bitflow-run/done-centos-ansible-runner ansible --version
 
 # load alias
-alias ans.='podman run --rm -v ./:/runner/ops flowto-cloud/done-centos-ansible-runner-v2:latest ansible'
-alias ansp.='podman run --rm -v ./:/runner/ops flowto-cloud/done-centos-ansible-runner-v2:latest ansible-playbook'
-alias ansd.='podman run -it --rm localhost/flowto-cloud/done-centos-ansible-runner-v2 ansible-doc'
+alias ans.='podman run --rm -v ./:/runner/ops bitflow-run/done-centos-ansible-runner-v2:latest ansible'
+alias ansp.='podman run --rm -v ./:/runner/ops bitflow-run/done-centos-ansible-runner-v2:latest ansible-playbook'
+alias ansd.='podman run -it --rm localhost/bitflow-run/done-centos-ansible-runner-v2 ansible-doc'
 
 ```
 
@@ -85,15 +85,15 @@ alias ansd.='podman run -it --rm localhost/flowto-cloud/done-centos-ansible-runn
 
 ```bash
 # build
-buildah bud --build-arg TARGET_VERSION=v0.9.4 -f k2s.alpine.dockerfile -t flowto-cloud/done-alpine-k2s:v0.9.4 .
+buildah bud --build-arg TARGET_VERSION=v0.9.4 -f k2s.alpine.dockerfile -t bitflow-run/done-alpine-k2s:v0.9.4 .
 
 # run test
-podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/done-alpine-k2s:v0.9.4 kubens --help
-podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/done-alpine-k2s:v0.9.4 kubectx --help
+podman run -it --rm -v ~/.kube:/root/.kube localhost/bitflow-run/done-alpine-k2s:v0.9.4 kubens --help
+podman run -it --rm -v ~/.kube:/root/.kube localhost/bitflow-run/done-alpine-k2s:v0.9.4 kubectx --help
 
 # load alias
-alias kux.='podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/done-alpine-k2s:v0.9.4 kubectx'
-alias kns.='podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/done-alpine-k2s:v0.9.4 kubens'
+alias kux.='podman run -it --rm -v ~/.kube:/root/.kube localhost/bitflow-run/done-alpine-k2s:v0.9.4 kubectx'
+alias kns.='podman run -it --rm -v ~/.kube:/root/.kube localhost/bitflow-run/done-alpine-k2s:v0.9.4 kubens'
 
 ```
 
@@ -108,25 +108,25 @@ alias kns.='podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/do
 export KUBECTL_VERSION=$(make kubectl-stable-version 2>/dev/null)
 
 # build
-buildah bud --build-arg KUBECTL_VERSION=${KUBECTL_VERSION} -t flowto-cloud/done-alpine-k9s .
+buildah bud --build-arg KUBECTL_VERSION=${KUBECTL_VERSION} -t bitflow-run/done-alpine-k9s .
 
 # run test
-podman run -it --rm -v ~/.kube:/root/.kube localhost/flowto-cloud/done-alpine-k9s --help
+podman run -it --rm -v ~/.kube:/root/.kube localhost/bitflow-run/done-alpine-k9s --help
 
 # load alias
-alias k9s.='podman run --rm -it -v ~/.kube/config:/root/.kube/config localhost/flowto-cloud/done-alpine-k9s'
+alias k9s.='podman run --rm -it -v ~/.kube/config:/root/.kube/config localhost/bitflow-run/done-alpine-k9s'
 ```
 ### nvim
 
 ```bash
 # build
-buildah bud -f nvim.alpine.dockerfile -t flowto-cloud/done-alpine-nvim
+buildah bud -f nvim.alpine.dockerfile -t bitflow-run/done-alpine-nvim
 
 # run test
-podman run --rm -it -v $(pwd):/data flowto-cloud/done-alpine-nvim nvim --help
+podman run --rm -it -v $(pwd):/data bitflow-run/done-alpine-nvim nvim --help
 
 # load alias
-alias vim.='podman run --rm -it -v $(pwd):/data flowto-cloud/done-alpine-nvim nvim'
+alias vim.='podman run --rm -it -v $(pwd):/data bitflow-run/done-alpine-nvim nvim'
 
 
 ```
@@ -135,15 +135,15 @@ alias vim.='podman run --rm -it -v $(pwd):/data flowto-cloud/done-alpine-nvim nv
 
 ```bash
 # Run a container from the image:
-podman run --rm -it localhost/flowto-cloud/done-nvim --version
+podman run --rm -it localhost/bitflow-run/done-nvim --version
 
-podman run --rm -it -v $(pwd):/data flowto-cloud/done-alpine-nvim nvim name-of-file.md
-
-# Run a container from the image:
-podman run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa flowto-cloud/mino-client bash
+podman run --rm -it -v $(pwd):/data bitflow-run/done-alpine-nvim nvim name-of-file.md
 
 # Run a container from the image:
-podman run --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro flowto-cloud/ansible:latest
+podman run --rm -it -v $(pwd):/ansible -v ~/.ssh/id_rsa:/root/id_rsa bitflow-run/mino-client bash
+
+# Run a container from the image:
+podman run --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro bitflow-run/ansible:latest
 
 # Run a container from the image:
 podman exec --tty [container_id] env TERM=xterm ansible --version
