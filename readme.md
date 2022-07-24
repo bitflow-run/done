@@ -126,8 +126,7 @@ buildah bud -f nvim.nvchad.golang.alpine.dockerfile -t bitflow-run/done-nvim-ide
 podman run --rm -it -v $(pwd):/mnt/workspace bitflow-run/done-nvim-ide:alpine nvim --help
 
 # load alias
-alias vim.='podman run --rm -it -v $(pwd):/mnt/workspace bitflow-run/done-nvim-ide:alpine nvim'
-
+alias vim.='podman run --rm -it -v $(pwd):/mnt/workspace:Z bitflow-run/done-nvim-ide:alpine nvim'
 
 ```
 
